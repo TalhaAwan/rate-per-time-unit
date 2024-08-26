@@ -1,7 +1,7 @@
 {
   "name": "rate-per-time-unit",
   "version": "1.0.0",
-  "description": "Calculate rate per second, rate per minute or rate per hour",
+  "description": "JavaScript package to calculate rate per second, rate per minute or rate per hour of any recurring event.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
