@@ -1,7 +1,7 @@
 import { RatePerSecond, RatePerMinute, RatePerHour } from '../src';
 
 
-const registerEvent = (heartBeat: RatePerSecond | RatePerMinute, numOfCalls = 1) => {
+const registerEvent = (heartBeat: RatePerSecond | RatePerMinute | RatePerHour, numOfCalls = 1) => {
   for (let i = 0; i < numOfCalls; i++) {
     heartBeat.registerEvent();
   }
@@ -489,6 +489,249 @@ describe("RatePerMinute", () => {
     registerEvent(heartBeat, 3);
 
     expect(heartBeat.getRatePerMinute()).toBe(180);
+
+  });
+});
+
+
+describe("RatePerHour", () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  test('get 0 rate per hour when no event is registered', async () => {
+    const networkRequests = new RatePerHour(5);
+    expect(networkRequests.getRatePerHour()).toBe(0);
+  });
+
+  test('get 0 rate per hour when all the registered events are old and outside the sliding window', async () => {
+    const networkRequests = new RatePerHour(7);
+
+    const mockedDate = new Date();
+
+    mockedDate.setMinutes(1);
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 2);
+
+    mockedDate.setMinutes(2)
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 3);
+
+    mockedDate.setMinutes(3)
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 3);
+
+    mockedDate.setMinutes(4)
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 3);
+
+    mockedDate.setMinutes(5)
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 3);
+
+    mockedDate.setMinutes(6)
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 3);
+
+    mockedDate.setMinutes(7)
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 3);
+
+
+    mockedDate.setMinutes(15) // <-- outside the 7 second sliding window (14 - 7 = 8)
+    jest.setSystemTime(mockedDate);
+    expect(networkRequests.getRatePerHour()).toBe(0);
+
+  });
+
+  test('get rate per hour for one second', async () => {
+    const networkRequests = new RatePerHour();
+
+    const mockedDate = new Date();
+    jest.setSystemTime(mockedDate);
+
+    registerEvent(networkRequests, 3);
+
+    expect(networkRequests.getRatePerHour()).toBe(180);
+
+  });
+
+  test('get rate per hour for 2 consecutive seconds', async () => {
+    const networkRequests = new RatePerHour();
+
+    const mockedDate = new Date();
+    mockedDate.setMinutes(1)
+
+    jest.setSystemTime(mockedDate);
+
+    registerEvent(networkRequests, 3);
+
+    mockedDate.setMinutes(2);
+    jest.setSystemTime(mockedDate);
+
+    registerEvent(networkRequests, 2);
+
+    expect(networkRequests.getRatePerHour()).toBe(150);
+
+  });
+
+  test('get rate per hour for 2 non-consecutive seconds', async () => {
+    const networkRequests = new RatePerHour();
+
+    const mockedDate = new Date();
+
+    mockedDate.setMinutes(1)
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 3);
+
+    mockedDate.setMinutes(7);
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 2);
+
+    expect(networkRequests.getRatePerHour()).toBe(150);
+
+  });
+
+  test('get rate per hour for 3 consecutive seconds', async () => {
+    const networkRequests = new RatePerHour();
+
+    const mockedDate = new Date();
+
+    mockedDate.setMinutes(1);
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 2);
+
+    mockedDate.setMinutes(2)
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 3);
+
+    mockedDate.setMinutes(3)
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 6);
+
+    expect(networkRequests.getRatePerHour()).toBe(220);
+
+  });
+
+  test('get rate per hour for 3 non-consecutive seconds', async () => {
+    const networkRequests = new RatePerHour();
+
+    const mockedDate = new Date();
+
+    mockedDate.setMinutes(1);
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 2);
+
+    mockedDate.setMinutes(5)
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 3);
+
+    mockedDate.setMinutes(9)
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 6);
+
+    expect(networkRequests.getRatePerHour()).toBe(220);
+
+  });
+
+
+  test('get rate per hour for a custom sliding window', async () => {
+    const networkRequests = new RatePerHour(5);
+
+    const mockedDate = new Date();
+
+    mockedDate.setMinutes(1);
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 2);
+
+    mockedDate.setMinutes(2)
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 3);
+
+    mockedDate.setMinutes(3)
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 2);
+
+    mockedDate.setMinutes(4)
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 3);
+
+    mockedDate.setMinutes(5)
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 3);
+
+    expect(networkRequests.getRatePerHour()).toBe(156);
+
+  });
+
+  test('get rate per hour for a custom sliding window 1', async () => {
+    const networkRequests = new RatePerHour(1);
+
+    const mockedDate = new Date();
+
+    mockedDate.setMinutes(1);
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 2);
+
+    expect(networkRequests.getRatePerHour()).toBe(120);
+  });
+
+  test('get rate per hour for a custom sliding window 1, ignoring seconds outside the sliding window', async () => {
+    const networkRequests = new RatePerHour(1);
+
+    const mockedDate = new Date();
+
+    mockedDate.setMinutes(1);
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 2);
+
+    mockedDate.setMinutes(2);
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 1);
+
+    expect(networkRequests.getRatePerHour()).toBe(60);
+  });
+
+  test('get rate per hour, ignoring from calculation the seconds that fall outside the sliding window start', async () => {
+    const networkRequests = new RatePerHour(5);
+
+    const mockedDate = new Date();
+
+    mockedDate.setMinutes(1);
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 2);
+
+    mockedDate.setMinutes(2)
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 3);
+
+    // ^ to be ignored from calculation
+
+    mockedDate.setMinutes(3)
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 3);
+
+    mockedDate.setMinutes(4)
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 3);
+
+    mockedDate.setMinutes(5)
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 3);
+
+    mockedDate.setMinutes(6)
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 3);
+
+    mockedDate.setMinutes(7)
+    jest.setSystemTime(mockedDate);
+    registerEvent(networkRequests, 3);
+
+    expect(networkRequests.getRatePerHour()).toBe(180);
 
   });
 });
