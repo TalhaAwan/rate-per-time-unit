@@ -1,7 +1,7 @@
 {
-  "name": "rate-per-second",
+  "name": "rate-per-time-unit",
   "version": "1.0.0",
-  "description": "Calculate rate per second of anything.",
+  "description": "Calculate rate per second, rate per minute or rate per hour",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -21,7 +21,7 @@
     "frames"
   ],
   "author": "Talha Awan",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "jest": "^29.7.0",
