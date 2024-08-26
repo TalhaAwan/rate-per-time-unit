@@ -101,7 +101,7 @@ describe("RatePerSecond", () => {
     jest.setSystemTime(mockedDate);
     registerEvent(heartBeat, 3);
 
-    mockedDate.setSeconds(7);
+    mockedDate.setSeconds(5);
     jest.setSystemTime(mockedDate);
     registerEvent(heartBeat, 2);
 
@@ -139,11 +139,11 @@ describe("RatePerSecond", () => {
     jest.setSystemTime(mockedDate);
     registerEvent(heartBeat, 2);
 
-    mockedDate.setSeconds(5)
+    mockedDate.setSeconds(3)
     jest.setSystemTime(mockedDate);
     registerEvent(heartBeat, 3);
 
-    mockedDate.setSeconds(9)
+    mockedDate.setSeconds(5)
     jest.setSystemTime(mockedDate);
     registerEvent(heartBeat, 6);
 
@@ -383,11 +383,11 @@ describe("RatePerMinute", () => {
     jest.setSystemTime(mockedDate);
     registerEvent(heartBeat, 2);
 
-    mockedDate.setSeconds(5)
+    mockedDate.setSeconds(3)
     jest.setSystemTime(mockedDate);
     registerEvent(heartBeat, 3);
 
-    mockedDate.setSeconds(9)
+    mockedDate.setSeconds(5)
     jest.setSystemTime(mockedDate);
     registerEvent(heartBeat, 6);
 
