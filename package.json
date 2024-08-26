@@ -1,0 +1,33 @@
+{
+  "name": "rate-per-second",
+  "version": "1.0.0",
+  "description": "Calculate rate per second of anything.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "jest"
+  },
+  "keywords": [
+    "rate",
+    "per",
+    "second",
+    "requests",
+    "clicks",
+    "frames"
+  ],
+  "author": "Talha Awan",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4"
+  }
+}
