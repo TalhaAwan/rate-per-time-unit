@@ -1,3 +1,17 @@
+// in seconds
+const MIN_SLIDING_WINDOW_SECOND = 1;
+const MAX_SLIDING_WINDOW_SECOND = 20;
+const DEFAULT_SLIDING_WINDOW_SECOND = 5;
+
+const MIN_SLIDING_WINDOW_MINUTE = 1;
+const MAX_MIN_SLIDING_WINDOW_MINUTE = 120;
+const DEFAULT_SLIDING_WINDOW_MINUTE = 6;
+
+// in minutes
+const MIN_SLIDING_WINDOW_HOUR = 1;
+const MAX_SLIDING_WINDOW_HOUR = 120;
+const DEFAULT_SLIDING_WINDOW_HOUR = 10;
+
 class RatePerTimeUnit {
   protected hash: Map<number, number> = new Map();
   protected window: number;
@@ -43,12 +57,13 @@ class RatePerTimeUnit {
 class RatePerSecond extends RatePerTimeUnit {
   constructor(window?: number) {
     if (!window) {
-      super(5);
-    }
-    else if (Number.isInteger(window) && window > 0 && window <= 20) {
+      super(DEFAULT_SLIDING_WINDOW_SECOND);
+    } else if (Number.isInteger(window) && window >= MIN_SLIDING_WINDOW_SECOND && window <= MAX_SLIDING_WINDOW_SECOND) {
       super(window);
     } else {
-      throw new Error("Sliding window for rate per second must be an integer between 1 and 20 seconds");
+      throw new Error(
+        `Sliding window for rate per second must be between ${MIN_SLIDING_WINDOW_SECOND} and ${MAX_SLIDING_WINDOW_SECOND} seconds`
+      );
     }
   }
 
@@ -66,12 +81,14 @@ class RatePerSecond extends RatePerTimeUnit {
 class RatePerMinute extends RatePerTimeUnit {
   constructor(window?: number) {
     if (!window) {
-      super(6);
+      super(DEFAULT_SLIDING_WINDOW_MINUTE);
     }
-    else if (Number.isInteger(window) && window > 0 && window <= 120) {
+    else if (Number.isInteger(window) && window >= MIN_SLIDING_WINDOW_MINUTE && window <= MAX_MIN_SLIDING_WINDOW_MINUTE) {
       super(window);
     } else {
-      throw new Error("Sliding window for rate per minute must be an integer between 1 and 120 seconds");
+      throw new Error(
+        `Sliding window for rate per minute must be between ${MIN_SLIDING_WINDOW_MINUTE} and ${MAX_MIN_SLIDING_WINDOW_MINUTE} seconds`
+      );
     }
   }
 
@@ -89,12 +106,14 @@ class RatePerMinute extends RatePerTimeUnit {
 class RatePerHour extends RatePerTimeUnit {
   constructor(window?: number) {
     if (!window) {
-      super(10);
+      super(DEFAULT_SLIDING_WINDOW_HOUR);
     }
-    else if (Number.isInteger(window) && window > 0 && window <= 20) {
+    else if (Number.isInteger(window) && window >= MIN_SLIDING_WINDOW_HOUR && window <= MAX_SLIDING_WINDOW_HOUR) {
       super(window);
     } else {
-      throw new Error("Sliding window for rate per hour must be an integer between 1 and 120 minutes");
+      throw new Error(
+        `Sliding window for rate per hour must be between ${MIN_SLIDING_WINDOW_HOUR} and ${MAX_SLIDING_WINDOW_HOUR} minutes`
+      );
     }
   }
 
