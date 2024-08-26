@@ -12,12 +12,16 @@ const MIN_SLIDING_WINDOW_HOUR = 1;
 const MAX_SLIDING_WINDOW_HOUR = 120;
 const DEFAULT_SLIDING_WINDOW_HOUR = 10;
 
+interface RateOptions {
+  slidingWindow?: number;
+}
+
 class RatePerTimeUnit {
   protected hash: Map<number, number> = new Map();
-  protected window: number;
+  protected slidingWindow: number;
 
-  constructor(window: number) {
-    this.window = window;
+  constructor({ slidingWindow }: RateOptions) {
+    this.slidingWindow = slidingWindow!;
   }
 
   protected registerEvent(seconds: number = 1) {
@@ -26,7 +30,7 @@ class RatePerTimeUnit {
     if (this.hash.has(thisTimeUnit)) {
       this.hash.set(thisTimeUnit, this.hash.get(thisTimeUnit) as number + 1);
     } else {
-      if (this.hash.size >= this.window) {
+      if (this.hash.size >= this.slidingWindow) {
         this.hash.delete(this.hash.keys().next().value);
       }
       this.hash.set(thisTimeUnit, 1);
@@ -35,7 +39,7 @@ class RatePerTimeUnit {
 
   protected getRate(seconds: number = 1) {
     const thisTimeUnit = Math.round(new Date().getTime() / (1000 * seconds));
-    const windowStart = thisTimeUnit - this.window;
+    const windowStart = thisTimeUnit - this.slidingWindow;
 
     let count = 0;
     let occurrences = 0;
@@ -48,18 +52,17 @@ class RatePerTimeUnit {
     }
 
     return {
-      count, occurrences
-    }
+      count,
+      occurrences,
+    };
   }
 }
 
-
 class RatePerSecond extends RatePerTimeUnit {
-  constructor(window?: number) {
-    if (!window) {
-      super(DEFAULT_SLIDING_WINDOW_SECOND);
-    } else if (Number.isInteger(window) && window >= MIN_SLIDING_WINDOW_SECOND && window <= MAX_SLIDING_WINDOW_SECOND) {
-      super(window);
+  constructor(options: RateOptions = {}) {
+    const slidingWindow = options.slidingWindow ?? DEFAULT_SLIDING_WINDOW_SECOND;
+    if (Number.isInteger(slidingWindow) && slidingWindow >= MIN_SLIDING_WINDOW_SECOND && slidingWindow <= MAX_SLIDING_WINDOW_SECOND) {
+      super({ slidingWindow });
     } else {
       throw new Error(
         `Sliding window for rate per second must be between ${MIN_SLIDING_WINDOW_SECOND} and ${MAX_SLIDING_WINDOW_SECOND} seconds`
@@ -79,12 +82,10 @@ class RatePerSecond extends RatePerTimeUnit {
 }
 
 class RatePerMinute extends RatePerTimeUnit {
-  constructor(window?: number) {
-    if (!window) {
-      super(DEFAULT_SLIDING_WINDOW_MINUTE);
-    }
-    else if (Number.isInteger(window) && window >= MIN_SLIDING_WINDOW_MINUTE && window <= MAX_MIN_SLIDING_WINDOW_MINUTE) {
-      super(window);
+  constructor(options: RateOptions = {}) {
+    const slidingWindow = options.slidingWindow ?? DEFAULT_SLIDING_WINDOW_MINUTE;
+    if (Number.isInteger(slidingWindow) && slidingWindow >= MIN_SLIDING_WINDOW_MINUTE && slidingWindow <= MAX_MIN_SLIDING_WINDOW_MINUTE) {
+      super({ slidingWindow });
     } else {
       throw new Error(
         `Sliding window for rate per minute must be between ${MIN_SLIDING_WINDOW_MINUTE} and ${MAX_MIN_SLIDING_WINDOW_MINUTE} seconds`
@@ -104,12 +105,10 @@ class RatePerMinute extends RatePerTimeUnit {
 }
 
 class RatePerHour extends RatePerTimeUnit {
-  constructor(window?: number) {
-    if (!window) {
-      super(DEFAULT_SLIDING_WINDOW_HOUR);
-    }
-    else if (Number.isInteger(window) && window >= MIN_SLIDING_WINDOW_HOUR && window <= MAX_SLIDING_WINDOW_HOUR) {
-      super(window);
+  constructor(options: RateOptions = {}) {
+    const slidingWindow = options.slidingWindow ?? DEFAULT_SLIDING_WINDOW_HOUR;
+    if (Number.isInteger(slidingWindow) && slidingWindow >= MIN_SLIDING_WINDOW_HOUR && slidingWindow <= MAX_SLIDING_WINDOW_HOUR) {
+      super({ slidingWindow });
     } else {
       throw new Error(
         `Sliding window for rate per hour must be between ${MIN_SLIDING_WINDOW_HOUR} and ${MAX_SLIDING_WINDOW_HOUR} minutes`

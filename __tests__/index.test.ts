@@ -17,12 +17,12 @@ describe("RatePerSecond", () => {
   });
 
   test('get 0 rate per second when no event is registered', async () => {
-    const heartBeat = new RatePerSecond(5);
+    const heartBeat = new RatePerSecond({ slidingWindow: 5 });
     expect(heartBeat.getRatePerSecond()).toBe(0);
   });
 
   test('get 0 rate per second when all the registered events are old and outside the sliding window', async () => {
-    const heartBeat = new RatePerSecond(7);
+    const heartBeat = new RatePerSecond({ slidingWindow: 7 });
 
     const mockedDate = new Date();
 
@@ -153,7 +153,7 @@ describe("RatePerSecond", () => {
 
 
   test('get rate per second for a custom sliding window', async () => {
-    const heartBeat = new RatePerSecond(5);
+    const heartBeat = new RatePerSecond({ slidingWindow: 5 });
 
     const mockedDate = new Date();
 
@@ -182,7 +182,7 @@ describe("RatePerSecond", () => {
   });
 
   test('get rate per second for a custom sliding window 1', async () => {
-    const heartBeat = new RatePerSecond(1);
+    const heartBeat = new RatePerSecond({ slidingWindow: 1 });
 
     const mockedDate = new Date();
 
@@ -194,7 +194,7 @@ describe("RatePerSecond", () => {
   });
 
   test('get rate per second for a custom sliding window 1, ignoring seconds outside the sliding window', async () => {
-    const heartBeat = new RatePerSecond(1);
+    const heartBeat = new RatePerSecond({ slidingWindow: 1 });
 
     const mockedDate = new Date();
 
@@ -210,7 +210,7 @@ describe("RatePerSecond", () => {
   });
 
   test('get rate per second, ignoring from calculation the seconds that fall outside the sliding window start', async () => {
-    const heartBeat = new RatePerSecond(5);
+    const heartBeat = new RatePerSecond({ slidingWindow: 5 });
 
     const mockedDate = new Date();
 
@@ -250,7 +250,6 @@ describe("RatePerSecond", () => {
 });
 
 
-
 describe("RatePerMinute", () => {
   beforeEach(() => {
     jest.useFakeTimers();
@@ -261,12 +260,12 @@ describe("RatePerMinute", () => {
   });
 
   test('get 0 rate per minute when no event is registered', async () => {
-    const heartBeat = new RatePerMinute(5);
+    const heartBeat = new RatePerMinute({ slidingWindow: 5 });
     expect(heartBeat.getRatePerMinute()).toBe(0);
   });
 
   test('get 0 rate per minute when all the registered events are old and outside the sliding window', async () => {
-    const heartBeat = new RatePerMinute(7);
+    const heartBeat = new RatePerMinute({ slidingWindow: 7 });
 
     const mockedDate = new Date();
 
@@ -397,7 +396,7 @@ describe("RatePerMinute", () => {
 
 
   test('get rate per minute for a custom sliding window', async () => {
-    const heartBeat = new RatePerMinute(5);
+    const heartBeat = new RatePerMinute({ slidingWindow: 5 });
 
     const mockedDate = new Date();
 
@@ -426,7 +425,7 @@ describe("RatePerMinute", () => {
   });
 
   test('get rate per minute for a custom sliding window 1', async () => {
-    const heartBeat = new RatePerMinute(1);
+    const heartBeat = new RatePerMinute({ slidingWindow: 1 });
 
     const mockedDate = new Date();
 
@@ -438,7 +437,7 @@ describe("RatePerMinute", () => {
   });
 
   test('get rate per minute for a custom sliding window 1, ignoring seconds outside the sliding window', async () => {
-    const heartBeat = new RatePerMinute(1);
+    const heartBeat = new RatePerMinute({ slidingWindow: 1 });
 
     const mockedDate = new Date();
 
@@ -454,7 +453,7 @@ describe("RatePerMinute", () => {
   });
 
   test('get rate per minute, ignoring from calculation the seconds that fall outside the sliding window start', async () => {
-    const heartBeat = new RatePerMinute(5);
+    const heartBeat = new RatePerMinute({ slidingWindow: 5 });
 
     const mockedDate = new Date();
 
@@ -504,12 +503,12 @@ describe("RatePerHour", () => {
   });
 
   test('get 0 rate per hour when no event is registered', async () => {
-    const networkRequests = new RatePerHour(5);
+    const networkRequests = new RatePerHour({ slidingWindow: 5 });
     expect(networkRequests.getRatePerHour()).toBe(0);
   });
 
   test('get 0 rate per hour when all the registered events are old and outside the sliding window', async () => {
-    const networkRequests = new RatePerHour(7);
+    const networkRequests = new RatePerHour({ slidingWindow: 7 });
 
     const mockedDate = new Date();
 
@@ -640,7 +639,7 @@ describe("RatePerHour", () => {
 
 
   test('get rate per hour for a custom sliding window', async () => {
-    const networkRequests = new RatePerHour(5);
+    const networkRequests = new RatePerHour({ slidingWindow: 5 });
 
     const mockedDate = new Date();
 
@@ -669,7 +668,7 @@ describe("RatePerHour", () => {
   });
 
   test('get rate per hour for a custom sliding window 1', async () => {
-    const networkRequests = new RatePerHour(1);
+    const networkRequests = new RatePerHour({ slidingWindow: 1 });
 
     const mockedDate = new Date();
 
@@ -681,7 +680,7 @@ describe("RatePerHour", () => {
   });
 
   test('get rate per hour for a custom sliding window 1, ignoring seconds outside the sliding window', async () => {
-    const networkRequests = new RatePerHour(1);
+    const networkRequests = new RatePerHour({ slidingWindow: 1 });
 
     const mockedDate = new Date();
 
@@ -697,7 +696,7 @@ describe("RatePerHour", () => {
   });
 
   test('get rate per hour, ignoring from calculation the seconds that fall outside the sliding window start', async () => {
-    const networkRequests = new RatePerHour(5);
+    const networkRequests = new RatePerHour({ slidingWindow: 5 });
 
     const mockedDate = new Date();
 
