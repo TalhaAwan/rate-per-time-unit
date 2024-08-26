@@ -1,4 +1,4 @@
-import RatePerSecond from '../src';
+import { RatePerSecond } from '../src';
 
 
 const registerEvent = (heartBeat: RatePerSecond, numOfCalls = 1) => {

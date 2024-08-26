@@ -42,4 +42,4 @@ class RatePerSecond {
   }
 }
 
-export default RatePerSecond;
+export { RatePerSecond };
