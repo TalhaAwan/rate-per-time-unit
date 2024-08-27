@@ -972,4 +972,3 @@ describe("RatePerHour", () => {
   });
 });
 
-
