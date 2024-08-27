@@ -13,9 +13,8 @@ rate-per-time-unit is a lightweight JavaScript package that allows you to calcul
 ```JavaScript
 import { RatePerSecond } from 'rate-per-time-unit';
 
-const clickRate = new RatePerSecond({ slidingWindow: 3 }); // 6-second sliding window
+const clickRate = new RatePerSecond({ slidingWindow: 3 }); // 3-second sliding window
 
-// Register events (e.g., clicks)
 clickRate.registerEvent(); // at Tue Aug 27 2024 14:07:01
 clickRate.registerEvent(); // at Tue Aug 27 2024 14:07:01
 clickRate.registerEvent(); // at Tue Aug 27 2024 14:07:02
@@ -24,20 +23,15 @@ clickRate.registerEvent(); // at Tue Aug 27 2024 14:07:02
 clickRate.registerEvent(); // at Tue Aug 27 2024 14:07:02
 clickRate.registerEvent(); // at Tue Aug 27 2024 14:07:03
 clickRate.registerEvent(); // at Tue Aug 27 2024 14:07:03
-// ...
 
-console.log(clickRate.getRatePerSecond()); // at Tue Aug 27 2024 14:07:03
+console.log(clickRate.getRatePerSecond()); // at Tue Aug 27 2024 14:07:03 -> 2.67
+console.log(clickRate.getRatePerSecond()); // at Tue Aug 27 2024 14:07:04 -> 2
+console.log(clickRate.getRatePerSecond()); // at Tue Aug 27 2024 14:07:05 -> 0.67
+console.log(clickRate.getRatePerSecond()); // at Tue Aug 27 2024 14:07:06 -> 0
 
-// -> 2 (events per second within the sliding window)
+clickRate.registerEvent(); // at Tue Aug 27 2024 14:07:06
 
-console.log(clickRate.getRatePerSecond()); // at Tue Aug 27 2024 14:07:04
-
-// -> 5 (events per second within the sliding window)
-
-console.log(clickRate.getRatePerSecond()); // at Tue Aug 27 2024 14:07:04
-
-// -> 5 (events per second within the sliding window)
-
+console.log(clickRate.getRatePerSecond()); // at Tue Aug 27 2024 14:07:06 -> 0.67
 
 ```
 
@@ -46,18 +40,25 @@ console.log(clickRate.getRatePerSecond()); // at Tue Aug 27 2024 14:07:04
 ```JavaScript
 import { RatePerMinute } from 'rate-per-time-unit';
 
-const heartBeat = new RatePerMinute({ slidingWindow: 10 }); // 10-minute sliding window
+const heartbeat = new RatePerMinute({ slidingWindow: 3 }); // 3-second sliding window
 
-// Register events (e.g., heartbeats)
-heartBeat.registerEvent(); // at Tue Aug 27 2024 14:07:01
-heartBeat.registerEvent(); // at Tue Aug 27 2024 14:07:01
-heartBeat.registerEvent(); // at Tue Aug 27 2024 14:07:02
-heartBeat.registerEvent(); // at Tue Aug 27 2024 14:07:02
-heartBeat.registerEvent(); // at Tue Aug 27 2024 14:07:02
-heartBeat.registerEvent(); // at Tue Aug 27 2024 14:07:03
-// ...
+heartbeat.registerEvent(); // at Tue Aug 27 2024 14:07:01
+heartbeat.registerEvent(); // at Tue Aug 27 2024 14:07:01
+heartbeat.registerEvent(); // at Tue Aug 27 2024 14:07:02
+heartbeat.registerEvent(); // at Tue Aug 27 2024 14:07:02
+heartbeat.registerEvent(); // at Tue Aug 27 2024 14:07:02
+heartbeat.registerEvent(); // at Tue Aug 27 2024 14:07:02
+heartbeat.registerEvent(); // at Tue Aug 27 2024 14:07:03
+heartbeat.registerEvent(); // at Tue Aug 27 2024 14:07:03
 
-console.log(heartBeat.getRatePerMinute()); // Outputs the average rate of events per minute within the sliding window
+console.log(heartbeat.getRatePerMinute()); // at Tue Aug 27 2024 14:07:03 -> 160
+console.log(heartbeat.getRatePerMinute()); // at Tue Aug 27 2024 14:07:04 -> 120
+console.log(heartbeat.getRatePerMinute()); // at Tue Aug 27 2024 14:07:05 -> 40
+console.log(heartbeat.getRatePerMinute()); // at Tue Aug 27 2024 14:07:06 -> 0
+
+heartbeat.registerEvent(); // at Tue Aug 27 2024 14:07:06
+
+console.log(heartbeat.getRatePerMinute()); // at Tue Aug 27 2024 14:07:06 -> 40
 
 ```
 
@@ -66,14 +67,25 @@ console.log(heartBeat.getRatePerMinute()); // Outputs the average rate of events
 ```JavaScript
 import { RatePerHour } from 'rate-per-time-unit';
 
-const ratePerHour = new RatePerHour({ slidingWindow: 2 }); // 2-hour sliding window
+const networkRequests = new RatePerHour({ slidingWindow: 3 }); // 3-minute sliding window
 
-// Register events (e.g., network requests)
-ratePerHour.registerEvent();
-ratePerHour.registerEvent();
-// ...
+networkRequests.registerEvent(); // at Tue Aug 27 2024 14:01:01
+networkRequests.registerEvent(); // at Tue Aug 27 2024 14:01:01
+networkRequests.registerEvent(); // at Tue Aug 27 2024 14:01:01
+networkRequests.registerEvent(); // at Tue Aug 27 2024 14:02:01
+networkRequests.registerEvent(); // at Tue Aug 27 2024 14:02:01
+networkRequests.registerEvent(); // at Tue Aug 27 2024 14:02:01
+networkRequests.registerEvent(); // at Tue Aug 27 2024 14:03:01
+networkRequests.registerEvent(); // at Tue Aug 27 2024 14:03:01
 
-console.log(ratePerHour.getRatePerHour()); // Outputs the average rate of events per hour within the sliding window
+console.log(networkRequests.getRatePerHour()); // at Tue Aug 27 2024 14:04:01 -> 160
+console.log(networkRequests.getRatePerHour()); // at Tue Aug 27 2024 14:05:01 -> 120
+console.log(networkRequests.getRatePerHour()); // at Tue Aug 27 2024 14:06:01 -> 40
+console.log(networkRequests.getRatePerHour()); // at Tue Aug 27 2024 14:07:01 -> 0
+
+networkRequests.registerEvent(); // at Tue Aug 27 2024 14:07:01
+
+console.log(networkRequests.getRatePerHour()); // at Tue Aug 27 2024 14:07:01 -> 40
 
 ```
 
@@ -81,21 +93,23 @@ console.log(ratePerHour.getRatePerHour()); // Outputs the average rate of events
 
 ### slidingWindow
 
-The slidingWindow option controls the number of time units (seconds or minutes) that the rate calculation considers. This allows you to smooth out short-term fluctuations in event rates.
+The `slidingWindow` option controls the number of time units (in seconds for per second and per minute calculations, or in minutes for per hour calculations) that the rate calculation considers. This allows you to smooth out short-term fluctuations in event rates.
 
-- Higher Value: A higher slidingWindow will average the events over a longer period, which can smooth out spikes and give a more stable long-term rate.
+- **Higher Value**: A higher `slidingWindow` will average the events over a longer period, which can smooth out spikes and give a more stable long-term rate.
 
-- Lower Value: A lower slidingWindow will be more sensitive to recent changes in the event rate, making it more responsive to short-term fluctuations.
+- **Lower Value**: A lower `slidingWindow` will be more sensitive to recent changes in the event rate, making it more responsive to short-term fluctuations.
 
-**Default Sliding Window Values:**
-RatePerSecond: Default is 5 seconds
-RatePerMinute: Default is 6 minutes
-RatePerHour: Default is 10 hours
+**Default Sliding Window Values**
 
-**Min & Max Sliding Window Values:**
-RatePerSecond: Min 1, Max 20 seconds
-RatePerMinute: Min 1, Max 120 seconds
-RatePerHour: Min 1, Max 120 minutes
+- RatePerSecond: 5 seconds
+- RatePerMinute: 6 seconds
+- RatePerHour: 10 minutes
+
+**Min & Max Sliding Window Values**
+
+- RatePerSecond: Min 1, Max 20 seconds
+- RatePerMinute: Min 1, Max 120 seconds
+- RatePerHour: Min 1, Max 120 minutes
 
 ## License
 
