@@ -79,7 +79,6 @@ describe("RatePerSecond", () => {
 
     const mockedDate = new Date();
     jest.setSystemTime(mockedDate);
-
     registerEvent(heartBeat, 3);
 
     expect(heartBeat.getRatePerSecond()).toBe(3);
@@ -192,6 +191,52 @@ describe("RatePerSecond", () => {
 
     expect(heartBeat.getRatePerSecond()).toBe(2.6);
 
+  });
+
+
+  test('get rate per second for a sliding window over time', async () => {
+    const heartBeat = new RatePerSecond({ slidingWindow: 3 });
+
+    const mockedDate = new Date();
+
+    mockedDate.setSeconds(1);
+    jest.setSystemTime(mockedDate);
+    registerEvent(heartBeat, 2);
+
+    mockedDate.setSeconds(2)
+    jest.setSystemTime(mockedDate);
+    registerEvent(heartBeat, 4);
+
+    mockedDate.setSeconds(3)
+    jest.setSystemTime(mockedDate);
+    registerEvent(heartBeat, 2);
+
+    expect(heartBeat.getRatePerSecond()).toBe(2.67);
+
+    mockedDate.setSeconds(4)
+    jest.setSystemTime(mockedDate);
+
+    expect(heartBeat.getRatePerSecond()).toBe(2);
+
+    mockedDate.setSeconds(5)
+    jest.setSystemTime(mockedDate);
+
+    expect(heartBeat.getRatePerSecond()).toBe(0.67);
+
+    mockedDate.setSeconds(6)
+    jest.setSystemTime(mockedDate);
+
+    expect(heartBeat.getRatePerSecond()).toBe(0);
+
+    registerEvent(heartBeat, 2);
+
+    expect(heartBeat.getRatePerSecond()).toBe(0.67);
+
+    mockedDate.setSeconds(7)
+    jest.setSystemTime(mockedDate);
+    registerEvent(heartBeat, 2);
+
+    expect(heartBeat.getRatePerSecond()).toBe(1.33);
   });
 
   test('get rate per second for a custom sliding window 1', async () => {
@@ -373,7 +418,7 @@ describe("RatePerMinute", () => {
     jest.setSystemTime(mockedDate);
     registerEvent(heartBeat, 2);
 
-    expect(heartBeat.getRatePerMinute()).toBe(150);
+    expect(heartBeat.getRatePerMinute()).toBe(120);
 
   });
 
