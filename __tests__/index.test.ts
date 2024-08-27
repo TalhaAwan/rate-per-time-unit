@@ -16,6 +16,19 @@ describe("RatePerSecond", () => {
     jest.useRealTimers();
   });
 
+  test('throw error if sliding window is less than 1 seconds', async () => {
+    expect(() => {
+      new RatePerSecond({ slidingWindow: 0 })
+    }).toThrow("Sliding window for rate per second must be between 1 and 20 seconds");
+  });
+
+  test('throw error if sliding window is greater than 20 seconds', async () => {
+    expect(() => {
+      new RatePerSecond({ slidingWindow: 21 })
+    }).toThrow("Sliding window for rate per second must be between 1 and 20 seconds");
+  });
+
+
   test('get 0 rate per second when no event is registered', async () => {
     const heartBeat = new RatePerSecond({ slidingWindow: 5 });
     expect(heartBeat.getRatePerSecond()).toBe(0);
@@ -257,6 +270,18 @@ describe("RatePerMinute", () => {
 
   afterEach(() => {
     jest.useRealTimers();
+  });
+
+  test('throw error if sliding window is less than 1 seconds', async () => {
+    expect(() => {
+      new RatePerMinute({ slidingWindow: 0 })
+    }).toThrow("Sliding window for rate per minute must be between 1 and 120 seconds");
+  });
+
+  test('throw error if sliding window is greater than 120 seconds', async () => {
+    expect(() => {
+      new RatePerMinute({ slidingWindow: 121 })
+    }).toThrow("Sliding window for rate per minute must be between 1 and 120 seconds");
   });
 
   test('get 0 rate per minute when no event is registered', async () => {
@@ -502,6 +527,18 @@ describe("RatePerHour", () => {
     jest.useRealTimers();
   });
 
+  test('throw error if sliding window is less than 1 minutes', async () => {
+    expect(() => {
+      new RatePerHour({ slidingWindow: 0 })
+    }).toThrow("Sliding window for rate per hour must be between 1 and 120 minutes");
+  });
+
+  test('throw error if sliding window is greater than 120 minutes', async () => {
+    expect(() => {
+      new RatePerHour({ slidingWindow: 121 })
+    }).toThrow("Sliding window for rate per hour must be between 1 and 120 minutes");
+  });
+
   test('get 0 rate per hour when no event is registered', async () => {
     const networkRequests = new RatePerHour({ slidingWindow: 5 });
     expect(networkRequests.getRatePerHour()).toBe(0);
@@ -541,7 +578,7 @@ describe("RatePerHour", () => {
     registerEvent(networkRequests, 3);
 
 
-    mockedDate.setMinutes(15) // <-- outside the 7 second sliding window (14 - 7 = 8)
+    mockedDate.setMinutes(15) // <-- outside the 7 minute sliding window (14 - 7 = 8)
     jest.setSystemTime(mockedDate);
     expect(networkRequests.getRatePerHour()).toBe(0);
 
