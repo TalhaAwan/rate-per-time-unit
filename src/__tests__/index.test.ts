@@ -968,7 +968,6 @@ describe("RatePerHour", () => {
     registerEvent(networkRequests, 3);
 
     expect(networkRequests.getRatePerHour()).toBe(180);
-
   });
 });
 
