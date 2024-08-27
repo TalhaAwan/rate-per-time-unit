@@ -1,3 +1,5 @@
+[//]: # (The code structure for the repo: https://pauloe-me.medium.com/typescript-npm-package-publishing-a-beginners-guide-40b95908e69c)
+
 # rate-per-time-unit
 
 ![rate-per-time-unit](https://github.com/TalhaAwan/rate-per-time-unit/actions/workflows/ci.yml/badge.svg)
