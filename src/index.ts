@@ -25,7 +25,7 @@ class RatePerTimeUnit {
   }
 
   protected registerEvent(seconds: number = 1) {
-    const thisTimeUnit = Math.round(new Date().getTime() / (1000 * seconds));
+    const thisTimeUnit = Math.floor(new Date().getTime() / (1000 * seconds));
 
     if (this.hash.has(thisTimeUnit)) {
       this.hash.set(thisTimeUnit, this.hash.get(thisTimeUnit) as number + 1);
@@ -38,14 +38,14 @@ class RatePerTimeUnit {
   }
 
   protected getRate(seconds: number = 1) {
-    const thisTimeUnit = Math.round(new Date().getTime() / (1000 * seconds));
+    const thisTimeUnit = Math.floor(new Date().getTime() / (1000 * seconds));
     const windowStart = thisTimeUnit - this.slidingWindow;
 
     let count = 0;
     let occurrences = 0;
 
     for (const [key, value] of this.hash.entries()) {
-      if (key >= windowStart) {
+      if (key > windowStart) {
         count += value;
         occurrences++;
       }
@@ -75,9 +75,9 @@ class RatePerSecond extends RatePerTimeUnit {
   }
 
   getRatePerSecond() {
-    const { count, occurrences } = super.getRate();
+    const { count } = super.getRate();
     if (!count) return 0;
-    return parseFloat((count / occurrences).toFixed(2));
+    return parseFloat((count / this.slidingWindow).toFixed(2));
   }
 }
 
@@ -100,7 +100,7 @@ class RatePerMinute extends RatePerTimeUnit {
   getRatePerMinute() {
     const { count, occurrences } = super.getRate();
     if (!count) return 0;
-    return parseFloat(((60 / occurrences) * count).toFixed(2));
+    return parseFloat(((60 / this.slidingWindow) * count).toFixed(2));
   }
 }
 
@@ -123,7 +123,7 @@ class RatePerHour extends RatePerTimeUnit {
   getRatePerHour() {
     const { count, occurrences } = super.getRate(60);
     if (!count) return 0;
-    return parseFloat(((60 / occurrences) * count).toFixed(2));
+    return parseFloat(((60 / this.slidingWindow) * count).toFixed(2));
   }
 }
 
