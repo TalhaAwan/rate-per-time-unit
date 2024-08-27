@@ -81,7 +81,7 @@ describe("RatePerSecond", () => {
     jest.setSystemTime(mockedDate);
     registerEvent(heartBeat, 3);
 
-    expect(heartBeat.getRatePerSecond()).toBe(3);
+    expect(heartBeat.getRatePerSecond()).toBe(0.6);
 
   });
 
@@ -100,7 +100,7 @@ describe("RatePerSecond", () => {
 
     registerEvent(heartBeat, 2);
 
-    expect(heartBeat.getRatePerSecond()).toBe(2.5);
+    expect(heartBeat.getRatePerSecond()).toBe(1);
 
   });
 
@@ -117,7 +117,7 @@ describe("RatePerSecond", () => {
     jest.setSystemTime(mockedDate);
     registerEvent(heartBeat, 2);
 
-    expect(heartBeat.getRatePerSecond()).toBe(2.5);
+    expect(heartBeat.getRatePerSecond()).toBe(1);
 
   });
 
@@ -138,7 +138,7 @@ describe("RatePerSecond", () => {
     jest.setSystemTime(mockedDate);
     registerEvent(heartBeat, 6);
 
-    expect(heartBeat.getRatePerSecond()).toBe(3.67);
+    expect(heartBeat.getRatePerSecond()).toBe(2.2);
 
   });
 
@@ -159,7 +159,7 @@ describe("RatePerSecond", () => {
     jest.setSystemTime(mockedDate);
     registerEvent(heartBeat, 6);
 
-    expect(heartBeat.getRatePerSecond()).toBe(3.67);
+    expect(heartBeat.getRatePerSecond()).toBe(2.2);
 
   });
 
@@ -382,7 +382,7 @@ describe("RatePerMinute", () => {
 
     registerEvent(heartBeat, 3);
 
-    expect(heartBeat.getRatePerMinute()).toBe(180);
+    expect(heartBeat.getRatePerMinute()).toBe(30);
 
   });
 
@@ -401,7 +401,7 @@ describe("RatePerMinute", () => {
 
     registerEvent(heartBeat, 2);
 
-    expect(heartBeat.getRatePerMinute()).toBe(150);
+    expect(heartBeat.getRatePerMinute()).toBe(50);
 
   });
 
@@ -414,11 +414,11 @@ describe("RatePerMinute", () => {
     jest.setSystemTime(mockedDate);
     registerEvent(heartBeat, 3);
 
-    mockedDate.setSeconds(7);
+    mockedDate.setSeconds(5);
     jest.setSystemTime(mockedDate);
     registerEvent(heartBeat, 2);
 
-    expect(heartBeat.getRatePerMinute()).toBe(120);
+    expect(heartBeat.getRatePerMinute()).toBe(50);
 
   });
 
@@ -439,7 +439,7 @@ describe("RatePerMinute", () => {
     jest.setSystemTime(mockedDate);
     registerEvent(heartBeat, 6);
 
-    expect(heartBeat.getRatePerMinute()).toBe(220);
+    expect(heartBeat.getRatePerMinute()).toBe(110);
 
   });
 
@@ -460,7 +460,7 @@ describe("RatePerMinute", () => {
     jest.setSystemTime(mockedDate);
     registerEvent(heartBeat, 6);
 
-    expect(heartBeat.getRatePerMinute()).toBe(220);
+    expect(heartBeat.getRatePerMinute()).toBe(110);
 
   });
 
@@ -629,38 +629,34 @@ describe("RatePerHour", () => {
 
   });
 
-  test('get rate per hour for one second', async () => {
+  test('get rate per hour for one minute', async () => {
     const networkRequests = new RatePerHour();
 
     const mockedDate = new Date();
     jest.setSystemTime(mockedDate);
-
     registerEvent(networkRequests, 3);
 
-    expect(networkRequests.getRatePerHour()).toBe(180);
+    expect(networkRequests.getRatePerHour()).toBe(18);
 
   });
 
-  test('get rate per hour for 2 consecutive seconds', async () => {
+  test('get rate per hour for 2 consecutive minutes', async () => {
     const networkRequests = new RatePerHour();
 
     const mockedDate = new Date();
     mockedDate.setMinutes(1)
-
     jest.setSystemTime(mockedDate);
-
     registerEvent(networkRequests, 3);
 
     mockedDate.setMinutes(2);
     jest.setSystemTime(mockedDate);
-
     registerEvent(networkRequests, 2);
 
-    expect(networkRequests.getRatePerHour()).toBe(150);
+    expect(networkRequests.getRatePerHour()).toBe(30);
 
   });
 
-  test('get rate per hour for 2 non-consecutive seconds', async () => {
+  test('get rate per hour for 2 non-consecutive minutes', async () => {
     const networkRequests = new RatePerHour();
 
     const mockedDate = new Date();
@@ -673,11 +669,11 @@ describe("RatePerHour", () => {
     jest.setSystemTime(mockedDate);
     registerEvent(networkRequests, 2);
 
-    expect(networkRequests.getRatePerHour()).toBe(150);
+    expect(networkRequests.getRatePerHour()).toBe(30);
 
   });
 
-  test('get rate per hour for 3 consecutive seconds', async () => {
+  test('get rate per hour for 3 consecutive minutes', async () => {
     const networkRequests = new RatePerHour();
 
     const mockedDate = new Date();
@@ -694,11 +690,11 @@ describe("RatePerHour", () => {
     jest.setSystemTime(mockedDate);
     registerEvent(networkRequests, 6);
 
-    expect(networkRequests.getRatePerHour()).toBe(220);
+    expect(networkRequests.getRatePerHour()).toBe(66);
 
   });
 
-  test('get rate per hour for 3 non-consecutive seconds', async () => {
+  test('get rate per hour for 3 non-consecutive minutes', async () => {
     const networkRequests = new RatePerHour();
 
     const mockedDate = new Date();
@@ -715,7 +711,7 @@ describe("RatePerHour", () => {
     jest.setSystemTime(mockedDate);
     registerEvent(networkRequests, 6);
 
-    expect(networkRequests.getRatePerHour()).toBe(220);
+    expect(networkRequests.getRatePerHour()).toBe(66);
 
   });
 
