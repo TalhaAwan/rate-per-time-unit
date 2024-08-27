@@ -1,4 +1,4 @@
-import { RatePerSecond, RatePerMinute, RatePerHour } from '../src';
+import { RatePerSecond, RatePerMinute, RatePerHour } from '..';
 
 const registerEvent = (event: RatePerSecond | RatePerMinute | RatePerHour, numOfCallsToRegister = 1) => {
   for (let i = 0; i < numOfCallsToRegister; i++) {
