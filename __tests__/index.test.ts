@@ -804,6 +804,52 @@ describe("RatePerHour", () => {
     expect(networkRequests.getRatePerHour()).toBe(120);
   });
 
+  test('get rate per hour for a sliding window over time', async () => {
+    const heartBeat = new RatePerHour({ slidingWindow: 3 });
+
+    const mockedDate = new Date();
+
+    mockedDate.setMinutes(1);
+    jest.setSystemTime(mockedDate);
+    registerEvent(heartBeat, 2);
+
+    mockedDate.setMinutes(2)
+    jest.setSystemTime(mockedDate);
+    registerEvent(heartBeat, 4);
+
+    mockedDate.setMinutes(3)
+    jest.setSystemTime(mockedDate);
+    registerEvent(heartBeat, 2);
+
+    expect(heartBeat.getRatePerHour()).toBe(160);
+
+    mockedDate.setMinutes(4)
+    jest.setSystemTime(mockedDate);
+
+    expect(heartBeat.getRatePerHour()).toBe(120);
+
+    mockedDate.setMinutes(5)
+    jest.setSystemTime(mockedDate);
+
+    expect(heartBeat.getRatePerHour()).toBe(40);
+
+    mockedDate.setMinutes(6)
+    jest.setSystemTime(mockedDate);
+
+    expect(heartBeat.getRatePerHour()).toBe(0);
+
+    registerEvent(heartBeat, 2);
+
+    expect(heartBeat.getRatePerHour()).toBe(40);
+
+    mockedDate.setMinutes(7)
+    jest.setSystemTime(mockedDate);
+    registerEvent(heartBeat, 2);
+
+    expect(heartBeat.getRatePerHour()).toBe(80);
+  });
+
+
   test('get rate per hour for a custom sliding window 1, ignoring seconds outside the sliding window', async () => {
     const networkRequests = new RatePerHour({ slidingWindow: 1 });
 
