@@ -1,6 +1,6 @@
 # rate-per-time-unit
 
-![rate-per-time-unit](https://github.com/TalhaAwan/rate-per-time-unit/actions/worflows/test.yml/badge.svg)
+![rate-per-time-unit](https://github.com/TalhaAwan/rate-per-time-unit/actions/workflows/ci.yml/badge.svg)
 
 A lightweight JavaScript package that allows you to calculate the rate of recurring events per second, per minute, or per hour using a sliding window.
 
