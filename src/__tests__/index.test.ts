@@ -6,6 +6,7 @@ const registerEvent = (event: RatePerSecond | RatePerMinute | RatePerHour, numOf
   }
 };
 
+
 describe("RatePerSecond", () => {
   beforeEach(() => {
     jest.useFakeTimers();
