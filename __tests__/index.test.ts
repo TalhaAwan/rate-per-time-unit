@@ -247,6 +247,20 @@ describe("RatePerSecond", () => {
     expect(clickRate.getRatePerSecond()).toBe(2);
   });
 
+  test('get rate per minute for a custom sliding window 20 & high count', async () => {
+    const clickRate = new RatePerSecond({ slidingWindow: 20 });
+
+    const mockedDate = new Date();
+
+    for (let i = 0; i < 70; i++) {
+      jest.setSystemTime(new Date(mockedDate.getTime() + (i * 1000)));
+
+      registerEvent(clickRate, i % 2 === 0 ? 10000 : 20000);
+    }
+
+    expect(clickRate.getRatePerSecond()).toBe(15000);
+  });
+
   test('get rate per second for a custom sliding window 1, ignoring seconds outside the sliding window', async () => {
     const clickRate = new RatePerSecond({ slidingWindow: 1 });
 
@@ -549,6 +563,34 @@ describe("RatePerMinute", () => {
     expect(heartbeat.getRatePerMinute()).toBe(120);
   });
 
+  test('get rate per minute for a custom sliding window 120', async () => {
+    const heartbeat = new RatePerMinute({ slidingWindow: 120 });
+
+    const mockedDate = new Date();
+
+    for (let i = 0; i < 120; i++) {
+      jest.setSystemTime(new Date(mockedDate.getTime() + (i * 1000)));
+
+      registerEvent(heartbeat, i % 2 === 0 ? 1 : 2);
+    }
+
+    expect(heartbeat.getRatePerMinute()).toBe(90);
+  });
+
+  test('get rate per minute for a custom sliding window 70 & high count', async () => {
+    const networkRequests = new RatePerMinute({ slidingWindow: 70 });
+
+    const mockedDate = new Date();
+
+    for (let i = 0; i < 70; i++) {
+      jest.setSystemTime(new Date(mockedDate.getTime() + (i * 1000)));
+
+      registerEvent(networkRequests, i % 2 === 0 ? 10000 : 20000);
+    }
+
+    expect(networkRequests.getRatePerMinute()).toBe(900000);
+  });
+
   test('get rate per minute for a custom sliding window 1, ignoring seconds outside the sliding window', async () => {
     const heartbeat = new RatePerMinute({ slidingWindow: 1 });
 
@@ -798,6 +840,34 @@ describe("RatePerHour", () => {
     registerEvent(networkRequests, 2);
 
     expect(networkRequests.getRatePerHour()).toBe(120);
+  });
+
+  test('get rate per hour for a custom sliding window 120', async () => {
+    const networkRequests = new RatePerHour({ slidingWindow: 120 });
+
+    const mockedDate = new Date();
+
+    for (let i = 0; i < 120; i++) {
+      jest.setSystemTime(new Date(mockedDate.getTime() + (i * 60000)));
+
+      registerEvent(networkRequests, i % 2 === 0 ? 1 : 2);
+    }
+
+    expect(networkRequests.getRatePerHour()).toBe(90);
+  });
+
+  test('get rate per hour for a custom sliding window 70 & high count', async () => {
+    const networkRequests = new RatePerHour({ slidingWindow: 70 });
+
+    const mockedDate = new Date();
+
+    for (let i = 0; i < 70; i++) {
+      jest.setSystemTime(new Date(mockedDate.getTime() + (i * 60000)));
+
+      registerEvent(networkRequests, i % 2 === 0 ? 10000 : 20000);
+    }
+
+    expect(networkRequests.getRatePerHour()).toBe(900000);
   });
 
   test('get rate per hour for a sliding window over time', async () => {
