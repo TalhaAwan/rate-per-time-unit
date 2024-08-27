@@ -15,7 +15,7 @@ jobs:
   test:
     defaults:
       run:
-        working-directory: __tests__
+        working-directory: src/__tests__
     env:
       NODE_VERSION: 20.15.0
 
@@ -23,10 +23,10 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/checkout@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
 
