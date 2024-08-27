@@ -1,19 +1,23 @@
 # rate-per-time-unit
 
-rate-per-time-unit is a lightweight JavaScript package that allows you to calculate the rate of recurring events per second, per minute, or per hour using a sliding window. It is useful for monitoring metrics like heartbeats per minute, network requests per hour, or clicks per second.
+A lightweight JavaScript package that allows you to calculate the rate of recurring events per second, per minute, or per hour using a sliding window.
 
 ## Installation
 
 > npm install rate-per-time-unit
 
-## Usage
+OR
 
-### 1. Rate Per Second (e.g., Clicks Per Second)
+> yarn add rate-per-time-unit
+
+## Modules & Their Usage
+
+### 1. RatePerSecond (example usage: clicks per second)
 
 ```JavaScript
 import { RatePerSecond } from 'rate-per-time-unit';
 
-const clickRate = new RatePerSecond({ slidingWindow: 3 }); // 3-second sliding window
+const clickRate = new RatePerSecond({ slidingWindow: 3 }); // 3 seconds
 
 clickRate.registerEvent(); // at Tue Aug 27 2024 14:07:01
 clickRate.registerEvent(); // at Tue Aug 27 2024 14:07:01
@@ -35,12 +39,12 @@ clickRate.getRatePerSecond(); // at Tue Aug 27 2024 14:07:06 -> 0.67
 
 ```
 
-### 2. Rate Per Minute (e.g., Heartbeats Per Minute)
+### 2. RatePerMinute (example usage: heartbeats per minute)
 
 ```JavaScript
 import { RatePerMinute } from 'rate-per-time-unit';
 
-const heartbeat = new RatePerMinute({ slidingWindow: 3 }); // 3-second sliding window
+const heartbeat = new RatePerMinute({ slidingWindow: 3 }); // 3 seconds
 
 heartbeat.registerEvent(); // at Tue Aug 27 2024 14:07:01
 heartbeat.registerEvent(); // at Tue Aug 27 2024 14:07:01
@@ -62,12 +66,12 @@ heartbeat.getRatePerMinute(); // at Tue Aug 27 2024 14:07:06 -> 40
 
 ```
 
-### 3. Rate Per Hour (e.g., Network Requests Per Hour)
+### 3. RatePerHour (example usage: network requests per hour)
 
 ```JavaScript
 import { RatePerHour } from 'rate-per-time-unit';
 
-const networkRequests = new RatePerHour({ slidingWindow: 3 }); // 3-minute sliding window
+const networkRequests = new RatePerHour({ slidingWindow: 3 }); // 3 minutes
 
 networkRequests.registerEvent(); // at Tue Aug 27 2024 14:01:01
 networkRequests.registerEvent(); // at Tue Aug 27 2024 14:01:01
@@ -91,26 +95,26 @@ networkRequests.getRatePerHour(); // at Tue Aug 27 2024 14:07:01 -> 40
 
 ## Options
 
+Type: `Object`
+
 ### slidingWindow
 
-The `slidingWindow` option controls the number of time units (in seconds for per second and per minute calculations, or in minutes for per hour calculations) that the rate calculation considers. This allows you to smooth out short-term fluctuations in event rates.
+Type: `Integer`
+
+The `slidingWindow` option configures the number of time units (seconds or minutes) that are considered in calculating the event rate. You can choose this value as below:
 
 - **Higher Value**: A higher `slidingWindow` will average the events over a longer period, which can smooth out spikes and give a more stable long-term rate.
 
 - **Lower Value**: A lower `slidingWindow` will be more sensitive to recent changes in the event rate, making it more responsive to short-term fluctuations.
 
-**Default Sliding Window Values**
+Default: `RatePerSecond`: 5, `RatePerMinute`: 6, `RatePerHour`: 10
 
-- RatePerSecond: 5 seconds
-- RatePerMinute: 6 seconds
-- RatePerHour: 10 minutes
+Min: `RatePerSecond`: 1 , `RatePerMinute`: 1 , `RatePerHour`: 1
 
-**Min & Max Sliding Window Values**
+Max: `RatePerSecond`: 20, `RatePerMinute`: 120, `RatePerHour`: 120
 
-- RatePerSecond: Min 1, Max 20 seconds
-- RatePerMinute: Min 1, Max 120 seconds
-- RatePerHour: Min 1, Max 120 minutes
+**Note** that `RatePerSecond` and `RatePerMinute` take _seconds_, wherease `RatePerHour` takes _minutes_ in `slidingWindow` option.
 
 ## License
 
-This project is licensed under the MIT License.
+MIT © Talha Awan
