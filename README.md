@@ -24,14 +24,14 @@ clickRate.registerEvent(); // at Tue Aug 27 2024 14:07:02
 clickRate.registerEvent(); // at Tue Aug 27 2024 14:07:03
 clickRate.registerEvent(); // at Tue Aug 27 2024 14:07:03
 
-console.log(clickRate.getRatePerSecond()); // at Tue Aug 27 2024 14:07:03 -> 2.67
-console.log(clickRate.getRatePerSecond()); // at Tue Aug 27 2024 14:07:04 -> 2
-console.log(clickRate.getRatePerSecond()); // at Tue Aug 27 2024 14:07:05 -> 0.67
-console.log(clickRate.getRatePerSecond()); // at Tue Aug 27 2024 14:07:06 -> 0
+clickRate.getRatePerSecond(); // at Tue Aug 27 2024 14:07:03 -> 2.67
+clickRate.getRatePerSecond(); // at Tue Aug 27 2024 14:07:04 -> 2
+clickRate.getRatePerSecond(); // at Tue Aug 27 2024 14:07:05 -> 0.67
+clickRate.getRatePerSecond(); // at Tue Aug 27 2024 14:07:06 -> 0
 
 clickRate.registerEvent(); // at Tue Aug 27 2024 14:07:06
 
-console.log(clickRate.getRatePerSecond()); // at Tue Aug 27 2024 14:07:06 -> 0.67
+clickRate.getRatePerSecond(); // at Tue Aug 27 2024 14:07:06 -> 0.67
 
 ```
 
@@ -51,14 +51,14 @@ heartbeat.registerEvent(); // at Tue Aug 27 2024 14:07:02
 heartbeat.registerEvent(); // at Tue Aug 27 2024 14:07:03
 heartbeat.registerEvent(); // at Tue Aug 27 2024 14:07:03
 
-console.log(heartbeat.getRatePerMinute()); // at Tue Aug 27 2024 14:07:03 -> 160
-console.log(heartbeat.getRatePerMinute()); // at Tue Aug 27 2024 14:07:04 -> 120
-console.log(heartbeat.getRatePerMinute()); // at Tue Aug 27 2024 14:07:05 -> 40
-console.log(heartbeat.getRatePerMinute()); // at Tue Aug 27 2024 14:07:06 -> 0
+heartbeat.getRatePerMinute(); // at Tue Aug 27 2024 14:07:03 -> 160
+heartbeat.getRatePerMinute(); // at Tue Aug 27 2024 14:07:04 -> 120
+heartbeat.getRatePerMinute(); // at Tue Aug 27 2024 14:07:05 -> 40
+heartbeat.getRatePerMinute(); // at Tue Aug 27 2024 14:07:06 -> 0
 
 heartbeat.registerEvent(); // at Tue Aug 27 2024 14:07:06
 
-console.log(heartbeat.getRatePerMinute()); // at Tue Aug 27 2024 14:07:06 -> 40
+heartbeat.getRatePerMinute(); // at Tue Aug 27 2024 14:07:06 -> 40
 
 ```
 
@@ -78,14 +78,14 @@ networkRequests.registerEvent(); // at Tue Aug 27 2024 14:02:01
 networkRequests.registerEvent(); // at Tue Aug 27 2024 14:03:01
 networkRequests.registerEvent(); // at Tue Aug 27 2024 14:03:01
 
-console.log(networkRequests.getRatePerHour()); // at Tue Aug 27 2024 14:04:01 -> 160
-console.log(networkRequests.getRatePerHour()); // at Tue Aug 27 2024 14:05:01 -> 120
-console.log(networkRequests.getRatePerHour()); // at Tue Aug 27 2024 14:06:01 -> 40
-console.log(networkRequests.getRatePerHour()); // at Tue Aug 27 2024 14:07:01 -> 0
+networkRequests.getRatePerHour(); // at Tue Aug 27 2024 14:04:01 -> 160
+networkRequests.getRatePerHour(); // at Tue Aug 27 2024 14:05:01 -> 120
+networkRequests.getRatePerHour(); // at Tue Aug 27 2024 14:06:01 -> 40
+networkRequests.getRatePerHour(); // at Tue Aug 27 2024 14:07:01 -> 0
 
 networkRequests.registerEvent(); // at Tue Aug 27 2024 14:07:01
 
-console.log(networkRequests.getRatePerHour()); // at Tue Aug 27 2024 14:07:01 -> 40
+networkRequests.getRatePerHour(); // at Tue Aug 27 2024 14:07:01 -> 40
 
 ```
 
