@@ -1,7 +1,7 @@
 {
   "name": "rate-per-time-unit",
   "version": "1.0.0",
-  "description": "A lightweight JavaScript library for calculating the rate per second, minute, or hour of any recurring event, such as API requests, user clicks, or frame renders, using a sliding window approach.",
+  "description": "A lightweight JavaScript library for calculating the rate per second, minute, or hour of any recurring event, using a sliding window approach.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
