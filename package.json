@@ -1,7 +1,7 @@
 {
   "name": "rate-per-time-unit",
   "version": "1.0.0",
-  "description": "JavaScript package to calculate rate per second, rate per minute or rate per hour of any recurring event.",
+  "description": "A lightweight JavaScript library for calculating the rate per second, minute, or hour of any recurring event, such as API requests, user clicks, or frame renders, using a sliding window approach.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -16,9 +16,9 @@
     "rate",
     "per",
     "second",
-    "requests",
-    "clicks",
-    "frames"
+    "minute",
+    "hour",
+    "frequency"
   ],
   "author": "Talha Awan",
   "license": "MIT",
