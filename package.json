@@ -21,6 +21,7 @@
     "hour",
     "frequency"
   ],
+  "repository": "TalhaAwan/rate-per-time-unit",
   "author": "Talha Awan",
   "license": "MIT",
   "devDependencies": {
